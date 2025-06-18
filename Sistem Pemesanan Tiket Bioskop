@@ -38,3 +38,76 @@ vector<string> daftarFilm = {
 };
 
 vector<string> daftarStudio = { "Studio 1", "Studio 2", "Studio 3", "Studio 4" };
+// Konversi kode kursi (A1, B3) menjadi indeks array
+bool konversiKodeKursi(const string& kode, int& row, int& col) {
+    if (kode.length() < 2 || kode.length() > 3) return false;
+    row = toupper(kode[0]) - 'A';
+    try {
+        col = stoi(kode.substr(1)) - 1;
+    } catch (...) {
+        return false;
+    }
+    return row >= 0 && row < ROWS && col >= 0 && col < COLS;
+}
+
+// Menampilkan layout kursi dengan status terisi
+void tampilkanKursi() {
+    cout << "\nTata Letak Kursi (XX = Terisi):\n";
+    for (int i = 0; i < ROWS; ++i) {
+        for (int j = 0; j < COLS; ++j) {
+            if (kursiTerisi[i][j]) cout << "[XX] ";
+            else cout << "[" << char('A' + i) << j + 1 << "] ";
+        }
+        cout << endl;
+    }
+}
+
+// Mencetak detail tiket
+void cetakTiket(const Tiket& t) {
+    cout << "\n===== Tiket Bioskop =====\n";
+    cout << "Nama   : " << t.nama << endl;
+    cout << "Film   : " << t.film << endl;
+    cout << "Studio : " << t.studio << endl;
+    cout << "Hari   : " << t.hari << endl;
+    cout << "Jadwal : " << t.jadwal << endl;
+    cout << "Kursi  : " << t.kodeKursi << endl;
+    cout << "Harga  : Rp" << t.harga << endl;
+    cout << "Bayar  : " << t.metodeBayar << endl;
+    cout << "=========================\n";
+}
+
+// Hitung harga berdasarkan hari dan waktu tayang
+int hitungHarga(const string& hari, const string& jadwal) {
+    bool weekend = (hari == "Sabtu" || hari == "Minggu");
+    int harga = weekend ? 60000 : 50000;
+    try {
+        if (jadwal.length() >= 2) {
+            int jam = stoi(jadwal.substr(0, 2));
+            if (jam >= 18) harga += 10000;
+        }
+    } catch (...) {}
+    return harga;
+}
+
+// Tambah poin loyalitas pelanggan
+void tambahPoin(const string& nama) {
+    poinPelanggan[nama] += 10;
+    cout << "Poin " << nama << ": " << poinPelanggan[nama] << " poin\n";
+}
+
+// Cek apakah hari Kamis (untuk promo)
+bool isHariKamis(const string& hari) {
+    string h = hari;
+    transform(h.begin(), h.end(), h.begin(), ::tolower);
+    return h == "kamis";
+}
+
+// Simpan transaksi ke file eksternal
+void simpanTransaksiKeFile() {
+    ofstream file("transaksi.txt", ios::app);
+    for (const auto& t : transaksiHariIni) {
+        file << t.nama << "," << t.kodeKursi << "," << t.film << "," << t.hari << "," << t.jadwal << "," << t.harga << "," << t.metodeBayar << "," << t.studio << endl;
+    }
+    file.close();
+    cout << "Transaksi disimpan ke file.\n";
+}
