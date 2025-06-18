@@ -111,6 +111,7 @@ void simpanTransaksiKeFile() {
     file.close();
     cout << "Transaksi disimpan ke file.\n";
 }
+
 // Fungsi utama pemesanan tiket
 void tambahPemesanan() {
     string nama, hari, jadwal, metode;
