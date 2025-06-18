@@ -11,6 +11,7 @@
 #include <cctype>
 
 using namespace std;
+
 // Struktur data untuk menyimpan informasi tiket
 struct Tiket {
     string nama, kodeKursi, film, hari, jadwal, metodeBayar, studio;
@@ -35,3 +36,5 @@ vector<string> daftarFilm = {
     "Jumbo", "Ada Apa Dengan Cinta", "Waktu Maghrib", "KKN Desa Penari",
     "Ipar Adalah Maut", "Agak Laen", "Pengabdi Setan", "Dilan 1990"
 };
+
+vector<string> daftarStudio = { "Studio 1", "Studio 2", "Studio 3", "Studio 4" };
