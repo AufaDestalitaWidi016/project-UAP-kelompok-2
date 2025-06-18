@@ -244,7 +244,7 @@ void updateTiket() {
     if (!ditemukan) cout << "Tiket tidak ditemukan.\n";
 }
 
-// Menghapus tiket
+// Menghapus tiket dari daftar dan menandai kursi sebagai kosong
 void hapusTiket() {
     string nama, kursi;
     cin.ignore();
@@ -266,7 +266,7 @@ void hapusTiket() {
     if (!ditemukan) cout << "Tiket tidak ditemukan.\n";
 }
 
-// Cari tiket berdasarkan nama
+// Menari Cari tiket berdasarkan nama
 void cariTiket() {
     string nama;
     cin.ignore();
@@ -278,7 +278,7 @@ void cariTiket() {
     if (!ditemukan) cout << "Tiket tidak ditemukan.\n";
 }
 
-// Urutkan berdasarkan harga
+// Mengurutkan tiket berdasarkan harga
 void urutkanTiketBerdasarkanHarga() {
     vector<Tiket> copyTiket = daftarTiket;
     sort(copyTiket.begin(), copyTiket.end(), [](const Tiket& a, const Tiket& b) {
@@ -288,20 +288,6 @@ void urutkanTiketBerdasarkanHarga() {
     for (const auto& t : copyTiket) cetakTiket(t);
 }
 
-// Riwayat pembatalan
-void tampilkanPembatalan() {
-    stack<Tiket> temp = pembatalan;
-    cout << "\n=== Riwayat Pembatalan Tiket ===\n";
-    while (!temp.empty()) {
-        cetakTiket(temp.top());
-        temp.pop();
-    }
-}
 
-// Leaderboard poin
-void tampilkanPoinTertinggi() {
-    cout << "\n=== Leaderboard Poin ===\n";
-    for (auto& p : poinPelanggan) {
-        cout << p.first << ": " << p.second << " poin\n";
-    }
-}
+
+
