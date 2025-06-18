@@ -38,6 +38,7 @@ vector<string> daftarFilm = {
 };
 
 vector<string> daftarStudio = { "Studio 1", "Studio 2", "Studio 3", "Studio 4" };
+
 // Konversi kode kursi (A1, B3) menjadi indeks array
 bool konversiKodeKursi(const string& kode, int& row, int& col) {
     if (kode.length() < 2 || kode.length() > 3) return false;
@@ -110,6 +111,24 @@ void simpanTransaksiKeFile() {
     }
     file.close();
     cout << "Transaksi disimpan ke file.\n";
+}
+
+// Menampilkan leaderboard poin
+void tampilkanPoinTertinggi() {
+    cout << "\n=== Leaderboard Poin ===\n";
+    for (auto& p : poinPelanggan) {
+        cout << p.first << ": " << p.second << " poin\n";
+    }
+}
+
+// Menampilkan riwayat pembatalan tiket
+void tampilkanPembatalan() {
+    stack<Tiket> temp = pembatalan;
+    cout << "\n=== Riwayat Pembatalan Tiket ===\n";
+    while (!temp.empty()) {
+        cetakTiket(temp.top());
+        temp.pop();
+    }
 }
 
 // Fungsi utama pemesanan tiket
@@ -187,6 +206,7 @@ void tambahPemesanan() {
     cout << "=========================\n";
     simpanTransaksiKeFile();
 }
+
 // Menampilkan transaksi hari ini dan total pendapatan
 void tampilkanTransaksiHariIni() {
     int total = 0;
