@@ -187,3 +187,101 @@ void tambahPemesanan() {
     cout << "=========================\n";
     simpanTransaksiKeFile();
 }
+// Menampilkan transaksi hari ini dan total pendapatan
+void tampilkanTransaksiHariIni() {
+    int total = 0;
+    cout << "\n=== Transaksi Hari Ini ===\n";
+    for (const auto& t : transaksiHariIni) {
+        cout << "Nama: " << t.nama
+             << " | Kursi: " << t.kodeKursi
+             << " | Film: " << t.film
+             << " | Studio: " << t.studio
+             << " | Jadwal: " << t.jadwal
+             << " | Harga: Rp" << t.harga
+             << " | Bayar: " << t.metodeBayar << endl;
+        total += t.harga;
+    }
+    cout << "Total tiket terjual: " << transaksiHariIni.size() << endl;
+    cout << "Total pendapatan   : Rp" << total << endl;
+}
+
+// Update metode pembayaran tiket
+void updateTiket() {
+    string nama, kursi;
+    cin.ignore();
+    cout << "\nMasukkan nama: "; getline(cin, nama);
+    cout << "Masukkan kode kursi yang ingin di-update: "; getline(cin, kursi);
+    bool ditemukan = false;
+    for (auto& t : daftarTiket) {
+        if (t.nama == nama && t.kodeKursi == kursi) {
+            cout << "Metode lama: " << t.metodeBayar << endl;
+            cout << "Masukkan metode baru: "; getline(cin, t.metodeBayar);
+            cout << "Metode pembayaran berhasil diperbarui!\n";
+            ditemukan = true;
+            break;
+        }
+    }
+    if (!ditemukan) cout << "Tiket tidak ditemukan.\n";
+}
+
+// Menghapus tiket
+void hapusTiket() {
+    string nama, kursi;
+    cin.ignore();
+    cout << "\nMasukkan nama: "; getline(cin, nama);
+    cout << "Masukkan kode kursi yang ingin dihapus: "; getline(cin, kursi);
+    bool ditemukan = false;
+    for (auto it = daftarTiket.begin(); it != daftarTiket.end(); ++it) {
+        if (it->nama == nama && it->kodeKursi == kursi) {
+            pembatalan.push(*it);
+            int row = toupper(kursi[0]) - 'A';
+            int col = stoi(kursi.substr(1)) - 1;
+            kursiTerisi[row][col] = false;
+            daftarTiket.erase(it);
+            cout << "Tiket berhasil dibatalkan.\n";
+            ditemukan = true;
+            break;
+        }
+    }
+    if (!ditemukan) cout << "Tiket tidak ditemukan.\n";
+}
+
+// Cari tiket berdasarkan nama
+void cariTiket() {
+    string nama;
+    cin.ignore();
+    cout << "\nMasukkan nama yang ingin dicari: "; getline(cin, nama);
+    bool ditemukan = false;
+    for (const auto& t : daftarTiket) {
+        if (t.nama == nama) { cetakTiket(t); ditemukan = true; }
+    }
+    if (!ditemukan) cout << "Tiket tidak ditemukan.\n";
+}
+
+// Urutkan berdasarkan harga
+void urutkanTiketBerdasarkanHarga() {
+    vector<Tiket> copyTiket = daftarTiket;
+    sort(copyTiket.begin(), copyTiket.end(), [](const Tiket& a, const Tiket& b) {
+        return a.harga < b.harga;
+    });
+    cout << "\n=== Tiket Diurutkan berdasarkan Harga ===\n";
+    for (const auto& t : copyTiket) cetakTiket(t);
+}
+
+// Riwayat pembatalan
+void tampilkanPembatalan() {
+    stack<Tiket> temp = pembatalan;
+    cout << "\n=== Riwayat Pembatalan Tiket ===\n";
+    while (!temp.empty()) {
+        cetakTiket(temp.top());
+        temp.pop();
+    }
+}
+
+// Leaderboard poin
+void tampilkanPoinTertinggi() {
+    cout << "\n=== Leaderboard Poin ===\n";
+    for (auto& p : poinPelanggan) {
+        cout << p.first << ": " << p.second << " poin\n";
+    }
+}
