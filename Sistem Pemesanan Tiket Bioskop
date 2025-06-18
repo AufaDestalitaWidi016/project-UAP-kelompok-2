@@ -11,3 +11,27 @@
 #include <cctype>
 
 using namespace std;
+// Struktur data untuk menyimpan informasi tiket
+struct Tiket {
+    string nama, kodeKursi, film, hari, jadwal, metodeBayar, studio;
+    int harga;
+};
+
+// Struktur data utama
+queue<Tiket> antrianTiket;
+stack<Tiket> pembatalan;
+vector<Tiket> daftarTiket;
+vector<Tiket> transaksiHariIni;
+map<string, int> poinPelanggan;
+map<string, string> studioPerNama;
+
+// Array untuk menandai kursi yang sudah terisi
+const int ROWS = 5;
+const int COLS = 10;
+bool kursiTerisi[ROWS][COLS] = { false };
+
+// Daftar film dan studio
+vector<string> daftarFilm = {
+    "Jumbo", "Ada Apa Dengan Cinta", "Waktu Maghrib", "KKN Desa Penari",
+    "Ipar Adalah Maut", "Agak Laen", "Pengabdi Setan", "Dilan 1990"
+};
